@@ -1,21 +1,22 @@
-import React from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { decrement, increment, reset } from './redux/ConterSlice';
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { filteredData } from "./state/productSlice/productSlice";
 
 function App() {
-  const count = useSelector((state) => state.counter.value)
-  console.log('sfhb', count);
+  const { filtered } = useSelector((state) => state.product);
+  const dispatch = useDispatch();
 
-  const dispatch = useDispatch()
-  
-  return (
-    <div>
-      <button onClick={()=> dispatch(increment())}>incriment</button>
-      <p>{count}</p>
-      <button onClick={()=> dispatch(decrement())}>decriment</button>
-      <button onClick={()=> dispatch(reset())}>reset</button>
-    </div>
-  )
+  return <div>
+
+    <button onClick={() => dispatch(filteredData("Electronics"))}>Electronics</button>
+    <button onClick={() => dispatch(filteredData("Clothing"))}>Clothing</button>
+    <button onClick={() => dispatch(filteredData("Home Appliances"))}>Home Appliances</button>
+    <button onClick={() => dispatch(filteredData("all"))}>all</button>
+
+    {filtered.map((items) => (
+      <div key={items.id}>{items.name} - {items.price}</div>
+    ))}
+  </div>;
 }
 
-export default App
+export default App;
